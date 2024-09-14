@@ -13,19 +13,17 @@ public class LevelDataEditor : EditorWindow {
     private SerializedProperty _endCheckpointProperty;
     private SerializedProperty _checkpointListProperty;
     private SerializedProperty _fileToGenerateNameProperty;
-    
     [SerializeField] private Checkpoint _startCheckpoint;
     [SerializeField] private Checkpoint _endCheckpoint;
     [SerializeField] private List<Checkpoint> _checkpoints;
-    
     [SerializeField] private string _fileToGenerateName = "LevelData";
     
     // load level data
     private SerializedProperty _levelDataSOToLoadProperty;
-    
     [SerializeField] private LevelDataSO _levelDataSOToLoad;
     
     private float _windowPadding = 10f;
+
 
     [MenuItem("Tools/Level Data Editor")]
     public static void ShowEditor() {
@@ -39,10 +37,8 @@ public class LevelDataEditor : EditorWindow {
         _startCheckpointProperty = _serializedObject.FindProperty("_startCheckpoint");
         _endCheckpointProperty = _serializedObject.FindProperty("_endCheckpoint");
         _checkpointListProperty = _serializedObject.FindProperty("_checkpoints");
-
         _fileToGenerateNameProperty = _serializedObject.FindProperty("_fileToGenerateName");
 
-        
         _levelDataSOToLoadProperty = _serializedObject.FindProperty("_levelDataSOToLoad");
     }
     
@@ -123,12 +119,6 @@ public class LevelDataEditor : EditorWindow {
         button.clicked += GenerateLevelData;
     }
     
-    private void AddPropertyFieldToRoot(SerializedProperty property, VisualElement root) {
-        PropertyField propertyField = new PropertyField(property);
-        propertyField.Bind(_serializedObject);
-        root.Add(propertyField);
-    }
-    
     private void CreateLoadLevelDataGUI() {
         VisualElement root = rootVisualElement;
         
@@ -145,6 +135,13 @@ public class LevelDataEditor : EditorWindow {
         root.Add(button);
         
         button.clicked += LoadLevelData;
+    }
+
+
+    private void AddPropertyFieldToRoot(SerializedProperty property, VisualElement root) {
+        PropertyField propertyField = new PropertyField(property);
+        propertyField.Bind(_serializedObject);
+        root.Add(propertyField);
     }
     
     private void GenerateLevelData() {
@@ -188,7 +185,6 @@ public class LevelDataEditor : EditorWindow {
         EditorGUIUtility.PingObject(levelData);
         
         Debug.Log("Generated Level Data!");
-
     }
 
     private void LoadLevelData() {
@@ -216,7 +212,6 @@ public class LevelDataEditor : EditorWindow {
     }
     
     private bool IsCheckpointListValid() {
-        // also check if all the checkpoints are not null
         if (_checkpoints == null) {
             return false;
         }
